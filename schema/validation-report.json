@@ -1,0 +1,439 @@
+{
+  "$defs": {
+    "Checksum": {
+      "description": "Model type for a checksum value",
+      "properties": {
+        "algorithm": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ChecksumAlg"
+            }
+          ],
+          "default": "SHA-1"
+        },
+        "value": {
+          "default": "",
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "title": "Checksum",
+      "type": "object"
+    },
+    "ChecksumAlg": {
+      "description": "Enumerated type for supported checksum algorithms.",
+      "enum": [
+        "MD5",
+        "SHA-1",
+        "SHA-256",
+        "SHA-384",
+        "SHA-512"
+      ],
+      "title": "ChecksumAlg",
+      "type": "string"
+    },
+    "EntryType": {
+      "enum": [
+        "file",
+        "metadata"
+      ],
+      "title": "EntryType",
+      "type": "string"
+    },
+    "FileEntry": {
+      "properties": {
+        "checksum": {
+          "$ref": "#/$defs/Checksum"
+        },
+        "mimetype": {
+          "default": "application/octet-stream",
+          "title": "Mimetype",
+          "type": "string"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "format": "path",
+              "type": "string"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Path"
+        },
+        "size": {
+          "default": 0,
+          "title": "Size",
+          "type": "integer"
+        },
+        "type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/EntryType"
+            }
+          ],
+          "default": "file"
+        }
+      },
+      "required": [
+        "path",
+        "checksum"
+      ],
+      "title": "FileEntry",
+      "type": "object"
+    },
+    "InformationPackage": {
+      "properties": {
+        "details": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PackageDetails"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "mets": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetsFile"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "representations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Representation"
+          },
+          "title": "Representations",
+          "type": "array"
+        }
+      },
+      "title": "InformationPackage",
+      "type": "object"
+    },
+    "MetadataResults": {
+      "properties": {
+        "messages": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Result"
+          },
+          "title": "Messages",
+          "type": "array"
+        },
+        "status": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/MetadataStatus"
+            }
+          ],
+          "default": "Unknown"
+        }
+      },
+      "title": "MetadataResults",
+      "type": "object"
+    },
+    "MetadataStatus": {
+      "description": "Enum for information package metadata status values.",
+      "enum": [
+        "Unknown",
+        "VALID",
+        "INVALID"
+      ],
+      "title": "MetadataStatus",
+      "type": "string"
+    },
+    "MetatdataResultSet": {
+      "properties": {
+        "schemaResults": {
+          "$ref": "#/$defs/MetadataResults"
+        },
+        "schematronResults": {
+          "$ref": "#/$defs/MetadataResults"
+        }
+      },
+      "required": [
+        "schemaResults",
+        "schematronResults"
+      ],
+      "title": "MetatdataResultSet",
+      "type": "object"
+    },
+    "MetsFile": {
+      "properties": {
+        "file_entries": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/FileEntry"
+          },
+          "title": "File Entries",
+          "type": "array"
+        },
+        "root": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/MetsRoot"
+            }
+          ],
+          "default": {
+            "label": "",
+            "namespaces": {},
+            "objid": "",
+            "profile": "",
+            "type": ""
+          }
+        }
+      },
+      "title": "MetsFile",
+      "type": "object"
+    },
+    "MetsRoot": {
+      "properties": {
+        "label": {
+          "default": "",
+          "title": "Label",
+          "type": "string"
+        },
+        "namespaces": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {},
+          "title": "Namespaces",
+          "type": "object"
+        },
+        "objid": {
+          "default": "",
+          "title": "Objid",
+          "type": "string"
+        },
+        "profile": {
+          "default": "",
+          "title": "Profile",
+          "type": "string"
+        },
+        "type": {
+          "default": "",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "title": "MetsRoot",
+      "type": "object"
+    },
+    "PackageDetails": {
+      "properties": {
+        "checksums": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Checksum"
+          },
+          "title": "Checksums",
+          "type": "array"
+        },
+        "contentinformationtype": {
+          "default": "",
+          "title": "Contentinformationtype",
+          "type": "string"
+        },
+        "label": {
+          "default": "",
+          "title": "Label",
+          "type": "string"
+        },
+        "name": {
+          "default": "",
+          "title": "Name",
+          "type": "string"
+        },
+        "oaispackagetype": {
+          "default": "",
+          "title": "Oaispackagetype",
+          "type": "string"
+        },
+        "othertype": {
+          "default": "",
+          "title": "Othertype",
+          "type": "string"
+        }
+      },
+      "title": "PackageDetails",
+      "type": "object"
+    },
+    "Representation": {
+      "properties": {
+        "mets": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetsFile"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "",
+          "title": "Name"
+        }
+      },
+      "title": "Representation",
+      "type": "object"
+    },
+    "Result": {
+      "properties": {
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Location"
+        },
+        "message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Message"
+        },
+        "ruleId": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Ruleid"
+        },
+        "severity": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/Severity"
+            }
+          ],
+          "default": "Unknown"
+        }
+      },
+      "required": [
+        "ruleId",
+        "location",
+        "message"
+      ],
+      "title": "Result",
+      "type": "object"
+    },
+    "Severity": {
+      "description": "Enum covering information package validation statuses.",
+      "enum": [
+        "Unknown",
+        "Info",
+        "Warn",
+        "Error"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "StructResults": {
+      "properties": {
+        "messages": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Result"
+          },
+          "title": "Messages",
+          "type": "array"
+        },
+        "status": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/StructureStatus"
+            }
+          ],
+          "default": "Unknown"
+        }
+      },
+      "title": "StructResults",
+      "type": "object"
+    },
+    "StructureStatus": {
+      "description": "Enum for information package structure status values.",
+      "enum": [
+        "Unknown",
+        "NotWellFormed",
+        "WellFormed"
+      ],
+      "title": "StructureStatus",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "metadata": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/MetatdataResultSet"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "package": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/InformationPackage"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "structure": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/StructResults"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "uid": {
+      "default": "ff3c57fd-ec6b-418f-b883-e302aea78b41",
+      "format": "uuid",
+      "title": "Uid",
+      "type": "string"
+    }
+  },
+  "title": "ValidationReport",
+  "type": "object"
+}
