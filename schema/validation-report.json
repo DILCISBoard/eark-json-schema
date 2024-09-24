@@ -51,16 +51,8 @@
           "type": "string"
         },
         "path": {
-          "anyOf": [
-            {
-              "format": "path",
-              "type": "string"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "title": "Path"
+          "title": "Path",
+          "type": "string"
         },
         "size": {
           "default": 0,
@@ -428,8 +420,6 @@
       "default": null
     },
     "uid": {
-      "default": "ff3c57fd-ec6b-418f-b883-e302aea78b41",
-      "format": "uuid",
       "title": "Uid",
       "type": "string"
     }
