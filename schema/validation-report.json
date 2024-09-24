@@ -51,6 +51,7 @@
           "type": "string"
         },
         "path": {
+          "format": "path",
           "title": "Path",
           "type": "string"
         },
@@ -420,8 +421,7 @@
       "default": null
     },
     "uid": {
-      "default": "7833e5b2-482a-4a94-b189-c6b377b45718",
-      "format": "uuid",
+      "format": "uuid4",
       "title": "Uid",
       "type": "string"
     }
