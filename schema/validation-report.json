@@ -42,30 +42,9 @@
     },
     "FileEntry": {
       "properties": {
-        "checksum": {
-          "$ref": "#/$defs/Checksum"
-        },
-        "mimetype": {
-          "default": "application/octet-stream",
-          "title": "Mimetype",
-          "type": "string"
-        },
         "path": {
-          "anyOf": [
-            {
-              "format": "path",
-              "type": "string"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "title": "Path"
-        },
-        "size": {
-          "default": 0,
-          "title": "Size",
-          "type": "integer"
+          "title": "Path",
+          "type": "string"
         },
         "type": {
           "allOf": [
@@ -74,6 +53,19 @@
             }
           ],
           "default": "file"
+        },
+        "size": {
+          "default": 0,
+          "title": "Size",
+          "type": "integer"
+        },
+        "checksum": {
+          "$ref": "#/$defs/Checksum"
+        },
+        "mimetype": {
+          "default": "application/octet-stream",
+          "title": "Mimetype",
+          "type": "string"
         }
       },
       "required": [
@@ -85,10 +77,10 @@
     },
     "InformationPackage": {
       "properties": {
-        "details": {
+        "mets": {
           "anyOf": [
             {
-              "$ref": "#/$defs/PackageDetails"
+              "$ref": "#/$defs/MetsFile"
             },
             {
               "type": "null"
@@ -96,10 +88,10 @@
           ],
           "default": null
         },
-        "mets": {
+        "details": {
           "anyOf": [
             {
-              "$ref": "#/$defs/MetsFile"
+              "$ref": "#/$defs/PackageDetails"
             },
             {
               "type": "null"
@@ -121,14 +113,6 @@
     },
     "MetadataResults": {
       "properties": {
-        "messages": {
-          "default": [],
-          "items": {
-            "$ref": "#/$defs/Result"
-          },
-          "title": "Messages",
-          "type": "array"
-        },
         "status": {
           "allOf": [
             {
@@ -136,6 +120,14 @@
             }
           ],
           "default": "Unknown"
+        },
+        "messages": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Result"
+          },
+          "title": "Messages",
+          "type": "array"
         }
       },
       "title": "MetadataResults",
@@ -169,14 +161,6 @@
     },
     "MetsFile": {
       "properties": {
-        "file_entries": {
-          "default": [],
-          "items": {
-            "$ref": "#/$defs/FileEntry"
-          },
-          "title": "File Entries",
-          "type": "array"
-        },
         "root": {
           "allOf": [
             {
@@ -184,12 +168,20 @@
             }
           ],
           "default": {
-            "label": "",
             "namespaces": {},
             "objid": "",
-            "profile": "",
-            "type": ""
+            "label": "",
+            "type": "",
+            "profile": ""
           }
+        },
+        "file_entries": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/FileEntry"
+          },
+          "title": "File Entries",
+          "type": "array"
         }
       },
       "title": "MetsFile",
@@ -197,11 +189,6 @@
     },
     "MetsRoot": {
       "properties": {
-        "label": {
-          "default": "",
-          "title": "Label",
-          "type": "string"
-        },
         "namespaces": {
           "additionalProperties": {
             "type": "string"
@@ -215,14 +202,19 @@
           "title": "Objid",
           "type": "string"
         },
-        "profile": {
+        "label": {
           "default": "",
-          "title": "Profile",
+          "title": "Label",
           "type": "string"
         },
         "type": {
           "default": "",
           "title": "Type",
+          "type": "string"
+        },
+        "profile": {
+          "default": "",
+          "title": "Profile",
           "type": "string"
         }
       },
@@ -231,27 +223,14 @@
     },
     "PackageDetails": {
       "properties": {
-        "checksums": {
-          "default": [],
-          "items": {
-            "$ref": "#/$defs/Checksum"
-          },
-          "title": "Checksums",
-          "type": "array"
-        },
-        "contentinformationtype": {
+        "name": {
           "default": "",
-          "title": "Contentinformationtype",
+          "title": "Name",
           "type": "string"
         },
         "label": {
           "default": "",
           "title": "Label",
-          "type": "string"
-        },
-        "name": {
-          "default": "",
-          "title": "Name",
           "type": "string"
         },
         "oaispackagetype": {
@@ -263,6 +242,19 @@
           "default": "",
           "title": "Othertype",
           "type": "string"
+        },
+        "contentinformationtype": {
+          "default": "",
+          "title": "Contentinformationtype",
+          "type": "string"
+        },
+        "checksums": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Checksum"
+          },
+          "title": "Checksums",
+          "type": "array"
         }
       },
       "title": "PackageDetails",
@@ -299,6 +291,25 @@
     },
     "Result": {
       "properties": {
+        "ruleId": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Ruleid"
+        },
+        "severity": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/Severity"
+            }
+          ],
+          "default": "Unknown"
+        },
         "location": {
           "anyOf": [
             {
@@ -320,25 +331,6 @@
             }
           ],
           "title": "Message"
-        },
-        "ruleId": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Ruleid"
-        },
-        "severity": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/Severity"
-            }
-          ],
-          "default": "Unknown"
         }
       },
       "required": [
@@ -362,14 +354,6 @@
     },
     "StructResults": {
       "properties": {
-        "messages": {
-          "default": [],
-          "items": {
-            "$ref": "#/$defs/Result"
-          },
-          "title": "Messages",
-          "type": "array"
-        },
         "status": {
           "allOf": [
             {
@@ -377,6 +361,14 @@
             }
           ],
           "default": "Unknown"
+        },
+        "messages": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Result"
+          },
+          "title": "Messages",
+          "type": "array"
         }
       },
       "title": "StructResults",
@@ -394,6 +386,23 @@
     }
   },
   "properties": {
+    "uid": {
+      "default": "7833e5b2-482a-4a94-b189-c6b377b45718",
+      "format": "uuid",
+      "title": "Uid",
+      "type": "string"
+    },
+    "structure": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/StructResults"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
     "metadata": {
       "anyOf": [
         {
@@ -415,23 +424,6 @@
         }
       ],
       "default": null
-    },
-    "structure": {
-      "anyOf": [
-        {
-          "$ref": "#/$defs/StructResults"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null
-    },
-    "uid": {
-      "default": "ff3c57fd-ec6b-418f-b883-e302aea78b41",
-      "format": "uuid",
-      "title": "Uid",
-      "type": "string"
     }
   },
   "title": "ValidationReport",
