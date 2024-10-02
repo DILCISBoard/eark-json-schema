@@ -4,17 +4,27 @@
       "description": "Model type for a checksum value",
       "properties": {
         "algorithm": {
-          "allOf": [
+          "anyOf": [
             {
               "$ref": "#/$defs/ChecksumAlg"
+            },
+            {
+              "type": "null"
             }
           ],
           "default": "SHA-1"
         },
         "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
           "default": "",
-          "title": "Value",
-          "type": "string"
+          "title": "Value"
         }
       },
       "title": "Checksum",
@@ -46,18 +56,38 @@
           "$ref": "#/$defs/Checksum"
         },
         "mimetype": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
           "default": "application/octet-stream",
-          "title": "Mimetype",
-          "type": "string"
+          "title": "Mimetype"
         },
         "path": {
-          "title": "Path",
-          "type": "string"
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Path"
         },
         "size": {
-          "default": 0,
-          "title": "Size",
-          "type": "integer"
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Size"
         },
         "type": {
           "allOf": [
@@ -70,6 +100,7 @@
       },
       "required": [
         "path",
+        "size",
         "checksum"
       ],
       "title": "FileEntry",
@@ -109,6 +140,73 @@
         }
       },
       "title": "InformationPackage",
+      "type": "object"
+    },
+    "InvalidFileEntry": {
+      "properties": {
+        "checksum": {
+          "$ref": "#/$defs/Checksum"
+        },
+        "errors": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Errors",
+          "type": "array"
+        },
+        "mimetype": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Mimetype"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Path"
+        },
+        "size": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Size"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EntryType"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "file"
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "checksum",
+        "mimetype",
+        "errors"
+      ],
+      "title": "InvalidFileEntry",
       "type": "object"
     },
     "MetadataResults": {
@@ -167,6 +265,14 @@
             "$ref": "#/$defs/FileEntry"
           },
           "title": "File Entries",
+          "type": "array"
+        },
+        "invalid_file_entries": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/InvalidFileEntry"
+          },
+          "title": "Invalid File Entries",
           "type": "array"
         },
         "root": {
